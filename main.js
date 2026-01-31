@@ -10,6 +10,18 @@ let camera, scene, renderer, model, face;
 
 const api = { state: 'Walking' };
 
+// Keyboard controls
+const keys = {
+	w: false,
+	a: false,
+	s: false,
+	d: false,
+	space: false,
+	x: false
+};
+
+const moveSpeed = 0.05;
+
 init();
 
 function init() {
@@ -73,6 +85,9 @@ function init() {
 	container.appendChild( renderer.domElement );
 
 	window.addEventListener( 'resize', onWindowResize );
+
+	// Keyboard event listeners
+	setupKeyboardControls();
 
 	// stats
 	stats = new Stats();
@@ -194,6 +209,52 @@ function fadeToAction( name, duration ) {
 
 }
 
+function setupKeyboardControls() {
+
+	window.addEventListener( 'keydown', ( event ) => {
+
+		const key = event.key.toLowerCase();
+
+		if ( key === 'w' ) keys.w = true;
+		if ( key === 'a' ) keys.a = true;
+		if ( key === 's' ) keys.s = true;
+		if ( key === 'd' ) keys.d = true;
+		if ( key === ' ' ) {
+			keys.space = true;
+			event.preventDefault();
+			// Trigger jump emote
+			if ( api.Jump && mixer ) {
+				api.Jump();
+			}
+		}
+		if ( key === 'x' ) {
+			keys.x = true;
+			// Trigger punch emote
+			if ( api.Punch && mixer ) {
+				api.Punch();
+			}
+		}
+
+	} );
+
+	window.addEventListener( 'keyup', ( event ) => {
+
+		const key = event.key.toLowerCase();
+
+		if ( key === 'w' ) keys.w = false;
+		if ( key === 'a' ) keys.a = false;
+		if ( key === 's' ) keys.s = false;
+		if ( key === 'd' ) keys.d = false;
+		if ( key === ' ' ) {
+			keys.space = false;
+			event.preventDefault();
+		}
+		if ( key === 'x' ) keys.x = false;
+
+	} );
+
+}
+
 function onWindowResize() {
 
 	camera.aspect = window.innerWidth / window.innerHeight;
@@ -211,8 +272,81 @@ function animate() {
 
 	if ( mixer ) mixer.update( dt );
 
+	// Handle movement
+	if ( model ) {
+		handleMovement( dt );
+	}
+
 	renderer.render( scene, camera );
 
 	stats.update();
+
+}
+
+function handleMovement( dt ) {
+
+	let moveX = 0;
+	let moveZ = 0;
+	let isMoving = false;
+
+	// Calculate movement direction
+	if ( keys.w ) {
+		moveZ -= 1;
+		isMoving = true;
+	}
+	if ( keys.s ) {
+		moveZ += 1;
+		isMoving = true;
+	}
+	if ( keys.a ) {
+		moveX -= 1;
+		isMoving = true;
+	}
+	if ( keys.d ) {
+		moveX += 1;
+		isMoving = true;
+	}
+
+	// Normalize diagonal movement
+	if ( moveX !== 0 && moveZ !== 0 ) {
+		moveX *= 0.707; // 1/sqrt(2) for diagonal normalization
+		moveZ *= 0.707;
+	}
+
+	// Apply movement
+	if ( isMoving ) {
+		// Move the model
+		model.position.x += moveX * moveSpeed;
+		model.position.z += moveZ * moveSpeed;
+
+		// Rotate model to face movement direction
+		if ( moveX !== 0 || moveZ !== 0 ) {
+			const angle = Math.atan2( moveX, moveZ );
+			model.rotation.y = angle;
+		}
+
+		// Switch to Walking state if not already in an emote
+		if ( api.state !== 'Walking' && activeAction && !activeAction.paused ) {
+			const currentActionName = Object.keys( actions ).find( name => actions[ name ] === activeAction );
+			const emotes = [ 'Jump', 'Yes', 'No', 'Wave', 'Punch', 'ThumbsUp' ];
+			if ( !emotes.includes( currentActionName ) ) {
+				api.state = 'Walking';
+				fadeToAction( 'Walking', 0.2 );
+			}
+		} else if ( api.state === 'Idle' ) {
+			api.state = 'Walking';
+			fadeToAction( 'Walking', 0.2 );
+		}
+	} else {
+		// Stop moving - switch to Idle if not in an emote
+		if ( api.state === 'Walking' ) {
+			const currentActionName = Object.keys( actions ).find( name => actions[ name ] === activeAction );
+			const emotes = [ 'Jump', 'Yes', 'No', 'Wave', 'Punch', 'ThumbsUp' ];
+			if ( !emotes.includes( currentActionName ) ) {
+				api.state = 'Idle';
+				fadeToAction( 'Idle', 0.2 );
+			}
+		}
+	}
 
 }
