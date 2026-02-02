@@ -374,6 +374,9 @@ function createGUI( model, animations ) {
 	activeAction = actions[ 'Walking' ];
 	activeAction.play();
 
+	// Hide the GUI completely
+	gui.hide();
+
 }
 
 function fadeToAction( name, duration ) {
