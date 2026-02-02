@@ -218,7 +218,7 @@ function init() {
 
 	} );
 
-	loader.load( '/assets/Wall.glb', function ( gltf ) {
+	loader.load( './assets/Wall.glb', function ( gltf ) {
 		wall = gltf.scene;
 		scene.add( wall );
 		wall.position.set( 20, 0, 0 );
