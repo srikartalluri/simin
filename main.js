@@ -238,7 +238,7 @@ function init() {
 	
 	} );
 
-	loader.load( '/assets/Wall.glb', function ( gltf ) {
+	loader.load( './assets/Wall.glb', function ( gltf ) {
 		wall2 = gltf.scene;
 		scene.add( wall2 );
 		wall2.position.set( -20, 0, 0 );
@@ -627,7 +627,7 @@ function onWindowResize() {
 function initStage2() {
 	console.log( 'Stage 2 initialized! Loading interactive objects...' );
 	const loader = new GLTFLoader();
-	loader.load( '/assets/frame.glb', function ( gltf ) {
+	loader.load( './assets/frame.glb', function ( gltf ) {
 		frame_1 = gltf.scene;
 		scene.add( frame_1 );
 		frame_1.position.set( -19.5, 5, -5 );
@@ -660,7 +660,7 @@ function initStage2() {
 	
 	} );
 	
-	loader.load( '/assets/frame.glb', function ( gltf ) {
+	loader.load( './assets/frame.glb', function ( gltf ) {
 		frame_2 = gltf.scene;
 		scene.add( frame_2 );
 		frame_2.position.set( -19.5, 5, 5 );
@@ -693,7 +693,7 @@ function initStage2() {
 	
 	} );
 
-	loader.load( '/assets/frame.glb', function ( gltf ) {
+	loader.load( './assets/frame.glb', function ( gltf ) {
 		frame_3 = gltf.scene;
 		scene.add( frame_3 );
 		frame_3.position.set( 19.5, 5, -5 );
@@ -726,7 +726,7 @@ function initStage2() {
 	
 	} );
 	
-	loader.load( '/assets/frame.glb', function ( gltf ) {
+	loader.load( './assets/frame.glb', function ( gltf ) {
 		frame_4 = gltf.scene;
 		scene.add( frame_4 );
 		frame_4.position.set( 19.5, 5, 5 );
@@ -772,7 +772,7 @@ function initStage3() {
 	console.log( 'Stage 3 initialized! All pictures have been dusted!' );
 	
 	const loader = new GLTFLoader();
-	loader.load( '/assets/watercan.glb', function ( gltf ) {
+	loader.load( './assets/watercan.glb', function ( gltf ) {
 		wateringCan = gltf.scene;
 		wateringCan.position.set( -17, 0, -17 );
 		wateringCan.scale.set( 1, 1, 1 );
@@ -906,7 +906,7 @@ function initStage4() {
 
 	const loader = new GLTFLoader();
 
-	loader.load( '/assets/grass.glb', function ( gltf ) {
+	loader.load( './assets/grass.glb', function ( gltf ) {
 		grass = gltf.scene;
 		grass.position.set( 13, 0, 13 );
 		grass.scale.set( 5, 5, 5 );
@@ -917,7 +917,7 @@ function initStage4() {
 	} );
 
 
-	loader.load( '/assets/grass.glb', function ( gltf ) {
+	loader.load( './assets/grass.glb', function ( gltf ) {
 		grass2 = gltf.scene;
 		grass2.position.set( -15, 0, 2 );
 		grass2.scale.set( 8, 8, 8 );
@@ -926,7 +926,7 @@ function initStage4() {
 		console.log( 'Grass2 loaded at position:', grass2.position );
 	} );
 
-	loader.load( '/assets/grass.glb', function ( gltf ) {
+	loader.load( './assets/grass.glb', function ( gltf ) {
 		grass3 = gltf.scene;
 		grass3.position.set( 17, 0, -17 );
 		grass3.scale.set( 8, 8, 8 );
@@ -935,7 +935,7 @@ function initStage4() {
 		console.log( 'Grass3 loaded at position:', grass3.position );
 	} );
 
-	loader.load( '/assets/tulip.glb', function ( gltf ) {
+	loader.load( './assets/tulip.glb', function ( gltf ) {
 		tulips = gltf.scene;
 		tulips.position.set( -7, 0, 10 );
 		tulips.scale.set( 2, 2, 2 );
@@ -944,7 +944,7 @@ function initStage4() {
 		console.log( 'Tulips loaded at position:', tulips.position );
 	} );
 
-	loader.load( '/assets/rose.glb', function ( gltf ) {
+	loader.load( './assets/rose.glb', function ( gltf ) {
 		rose = gltf.scene;
 		rose.scale.set( 0.05, 0.05, 0.05 );
 
@@ -953,7 +953,7 @@ function initStage4() {
 
 	} );
 
-	loader.load( '/assets/tree.glb', function ( gltf ) {
+	loader.load( './assets/tree.glb', function ( gltf ) {
 		tree = gltf.scene;
 		tree.position.set( 0, 0, -5 );
 		tree.scale.set( 0.05, 0.05, 0.05 );
